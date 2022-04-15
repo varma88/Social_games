@@ -14,7 +14,7 @@ class Group(BaseGroup):
     reconstructed_sentence = models.StringField()
 def aggregate(group: Group):
     players = group.get_players()
-    group.reconstructed_sentence = [p.remembered_sentence for p in players]
+    group.reconstructed_sentence = str([p.remembered_sentence for p in players])
     
     
 class Player(BasePlayer):
