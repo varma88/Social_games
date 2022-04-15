@@ -1,0 +1,16 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Send {{ endblock }}
+
+{{ block content }}
+
+You have {{ C.ENDOWMENT }}
+
+If you send some money to your partner, he may or may not send you back some money.
+
+{{ formfield "sent_amount" }}
+
+
+{{ next_button }}
+
+
+{{ endblock }}

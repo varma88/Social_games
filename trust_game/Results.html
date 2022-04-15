@@ -1,0 +1,22 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Results{{ endblock }}
+
+{{ block content }}
+
+{{ if player.id_in_group == 1 }} 
+
+You sent your partner {{ group.sent_amount }} and your partner sent you back {{ group.sent_back_amount }}
+
+You now have {{ player.payoff }}
+
+{{ else }}
+  
+Your partner sent you {{ group.sent_amount }} and you sent your partner back {{ group.sent_back_amount }}
+
+You now have {{ player.payoff }}
+
+{{ endif }}
+
+{{ next_button }}
+
+{{ endblock }}

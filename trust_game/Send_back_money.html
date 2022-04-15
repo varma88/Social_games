@@ -1,0 +1,13 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Send money back to your partner{{ endblock }}
+
+{{ block content }}
+
+
+Your partner sent you {{ group.sent_amount }} and you received {{ tripled_amount }}
+
+{{ formfield "sent_back_amount" }}
+
+{{ next_button }}
+
+{{ endblock }}
