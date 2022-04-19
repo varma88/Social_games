@@ -17,7 +17,6 @@ def average_guess(group: Group):
     players = group.get_players()
     guesses = [p.guess for p in players]
     group.av_guess = sum(guesses) / C.PLAYERS_PER_GROUP
-def average_deviation(group: Group):
     group.av_devn = group.av_guess - C.ACTUAL_NUMBER
     
 class Player(BasePlayer):
@@ -38,7 +37,6 @@ class Guess(Page):
         deviation(player)
 class MyWaitPage(WaitPage):
     after_all_players_arrive = average_guess
-    after_all_players_arrive = average_deviation
 class Results(Page):
     form_model = 'player'
 page_sequence = [Intro, Guess, MyWaitPage, Results]
