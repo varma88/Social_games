@@ -24,7 +24,7 @@ def deviation(player: Player):
     player.devn = player.guess - C.ACTUAL_NUMBER
     
 class Intro(Page):
-    timeout_seconds = 100
+    timeout_seconds = 20
 
 class Guess(Page):
     form_model = 'player'
