@@ -23,7 +23,8 @@ class Player(BasePlayer):
 def deviation(player: Player):
     player.devn = player.guess - C.ACTUAL_NUMBER
     
-class(Intro):
+class Intro(Page):
+    timeout_seconds = 100
 
 class Guess(Page):
     form_model = 'player'
