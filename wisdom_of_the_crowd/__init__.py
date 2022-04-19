@@ -24,12 +24,12 @@ def deviation(player: Player):
     player.devn = player.guess - C.ACTUAL_NUMBER
     
 class Intro(Page):
-    timeout_seconds = 20
+    timeout_seconds = 10
 
 class Guess(Page):
     form_model = 'player'
     form_fields = ['guess']
-    timeout_seconds = 100
+    timeout_seconds = 20
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         deviation(player)

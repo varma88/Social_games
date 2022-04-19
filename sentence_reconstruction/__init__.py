@@ -7,7 +7,7 @@ class C(BaseConstants):
     NAME_IN_URL = 'sentence_reconstruction'
     PLAYERS_PER_GROUP = 3
     NUM_ROUNDS = 1
-    SENTENCE = 'I find the words'
+    SENTENCE = 'In the hours of the waking night, unholy creatures roam, and settle in the abyss of your thoughts'
 class Subsession(BaseSubsession):
     pass
 class Group(BaseGroup):
