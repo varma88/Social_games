@@ -1,7 +1,22 @@
-{{ extends 'global/Page.html' }}
-{{ block title }}Your guess{{ endblock }}
+{{ extends 'wisdom_of_the_crowd/_templates/Page.html' }}
+{{ load otree }}
+
+{{ block title }}
+
+Your guess
+
+
+<style>
+    .otree-title {
+        max-width:800px
+		background: linear-gradient(-45deg, #EE7752, #E73C7E)
+    }
+</style>
+
+{{ endblock }}
 
 {{ block content }}
+
 
 <img src="https://i.imgur.com/Y6vm9Fj.png" width="500px" />
 
