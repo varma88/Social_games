@@ -33,4 +33,4 @@ class MyWaitPage(WaitPage):
     after_all_players_arrive = average_guess
 class Results(Page):
     form_model = 'player'
-page_sequence = [Guess, MyWaitPage, Results]
+page_sequence = [Intro, Guess, MyWaitPage, Results]
