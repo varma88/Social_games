@@ -22,6 +22,9 @@ class Player(BasePlayer):
     devn = models.FloatField()
 def deviation(player: Player):
     player.devn = player.guess - C.ACTUAL_NUMBER
+    
+class(Intro):
+
 class Guess(Page):
     form_model = 'player'
     form_fields = ['guess']
