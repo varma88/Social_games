@@ -10,6 +10,7 @@ class C(BaseConstants):
     ACTUAL_NUMBER = 200
 class Subsession(BaseSubsession):
     pass
+    
 class Group(BaseGroup):
     av_guess = models.FloatField()
     av_devn = models.FloatField()
@@ -26,7 +27,7 @@ def deviation(player: Player):
     player.devn = player.guess - C.ACTUAL_NUMBER
     
 class Intro(Page):
-    timeout_seconds = 10
+    timeout_seconds = 5
 
 class Guess(Page):
     form_model = 'player'
@@ -35,8 +36,15 @@ class Guess(Page):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         deviation(player)
+        
 class MyWaitPage(WaitPage):
     after_all_players_arrive = average_guess
-class Results(Page):
+    @staticmethod
+    def js_vars(player):
+        my_dict = {}
+        my_dict = {player.id_in_group: player.guess}       
+        return my_dict
+        
+class Results(Page):       
     form_model = 'player'
 page_sequence = [Intro, Guess, MyWaitPage, Results]
