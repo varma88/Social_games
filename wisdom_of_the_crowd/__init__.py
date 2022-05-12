@@ -1,5 +1,11 @@
 
 from otree.api import *
+import random
+import matplotlib.pyplot as plt
+from io import BytesIO
+from base64 import b64encode
+import urllib
+
 c = cu
 
 doc = ''
@@ -7,7 +13,7 @@ class C(BaseConstants):
     NAME_IN_URL = 'wisdom_of_the_crowd'
     PLAYERS_PER_GROUP = 3
     NUM_ROUNDS = 1
-    ACTUAL_NUMBER = 200
+    ACTUAL_NUMBER = random.randint(0,1000)
 class Subsession(BaseSubsession):
     pass
     
@@ -37,6 +43,26 @@ class Player(BasePlayer):
 def deviation(player: Player):
     player.devn = player.guess - C.ACTUAL_NUMBER
     
+def create_figure(player):
+        n = C.ACTUAL_NUMBER
+        x = random.sample(range(1, 10000), n)
+        y = random.sample(range(1, 10000), n)
+
+        fig, ax = plt.subplots()
+        plt.scatter(x, y)
+        plt.setp(ax.spines.values(), linewidth=3)
+        plt.xticks([])
+        plt.yticks([])
+        
+        fig = plt.gcf()
+        buf = BytesIO()        
+        fig.savefig(buf, format='png', bbox_inches='tight')
+        buf.seek(0)
+
+        string = b64encode(buf.read())
+
+        return urllib.parse.quote(string)
+    
 class Intro(Page):
     timeout_seconds = 5
 
@@ -44,6 +70,10 @@ class Guess(Page):
     form_model = 'player'
     form_fields = ['guess']
     timeout_seconds = 20
+    
+    def vars_for_template(player):
+       return {'my_img' : create_figure(player)}
+
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         deviation(player)
@@ -63,6 +93,7 @@ class Results(Page):
         my_dict = {'highchart_cat': player.participant.high_cats,
                    'highchart_dat': player.participant.high_data,
                    }
+        
         print("@@@@ my_dict", my_dict)  # print statement for debugging.
         return my_dict
 page_sequence = [Intro, Guess, MyWaitPage, Results]
