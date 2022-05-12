@@ -4,8 +4,11 @@
 {{ block content }}
 
 <script>
-    let x = js_vars.my_dict;
+    // let x = js_vars.my_dict;
+    let x = js_vars.highchart_dat;
     // etc...
+    // console.log(js_vars.highchart_dat);
+    // console.log(js_vars.highchart_cat);
 </script>
 
 <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -21,6 +24,9 @@
 </figure>
 
 <script>
+    console.log(js_vars.highchart_dat);
+    console.log(js_vars.highchart_cat);
+
 Highcharts.chart('container', {
     chart: {
         type: 'column'
@@ -29,11 +35,13 @@ Highcharts.chart('container', {
         text: 'Comparison of individual and average guesses with the actual number'
     },
     xAxis: {
-        categories: ['Player1','Player2', 'Player3', 'Average guess', 'Actual number']
+        categories: js_vars.highchart_cat
     },
     credits: {
         enabled: false
     },
+    series: js_vars.highchart_dat
+    /*
     series: [{
         name: 'Player1',
         data: [5]
@@ -50,6 +58,7 @@ Highcharts.chart('container', {
 		name: 'Actual number',
         data: [4]
     }]
+    */
 });
 </script>
 
