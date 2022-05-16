@@ -12,7 +12,7 @@ LANGUAGE_CODE = 'en'
 REAL_WORLD_CURRENCY_CODE = 'USD'
 USE_POINTS = True
 DEMO_PAGE_INTRO_HTML = ''
-PARTICIPANT_FIELDS = ['high_cats', 'high_data']
+PARTICIPANT_FIELDS = ['high_cats', 'high_data', 'sim_cats', 'sim_data']
 SESSION_FIELDS = []
 ROOMS = []
 

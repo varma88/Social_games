@@ -24,8 +24,8 @@ def average_guess(group: Group):
     players = group.get_players()
     guesses = [p.guess for p in players]
     av_guess = sum(guesses) / C.PLAYERS_PER_GROUP
-    group.av_guess = av_guess
-    group.av_devn = group.av_guess - C.ACTUAL_NUMBER
+    group.av_guess = round(av_guess, 3)
+    group.av_devn = round(group.av_guess - C.ACTUAL_NUMBER, 3)
     # Save the info in highchart format for later use.
     # Get categories for chart (actually currently constant per group):
     hcats = ["Player" + str(id) for id in range(1, C.PLAYERS_PER_GROUP + 1)] + \
@@ -41,7 +41,7 @@ class Player(BasePlayer):
     guess = models.FloatField(label='How many balls do you think there are in the box?')
     devn = models.FloatField()
 def deviation(player: Player):
-    player.devn = player.guess - C.ACTUAL_NUMBER
+    player.devn = round(player.guess - C.ACTUAL_NUMBER, 3)
     
 def create_figure(player):
         n = C.ACTUAL_NUMBER

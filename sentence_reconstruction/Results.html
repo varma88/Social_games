@@ -3,12 +3,78 @@
 
 {{ block content }}
 
+
+<script>
+    // let x = js_vars.my_dict;
+    let x = js_vars.similarity_dat;
+    // etc...
+    // console.log(js_vars.highchart_dat);
+    // console.log(js_vars.highchart_cat);
+</script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<figure class="highcharts-figure">
+    <div id="container"></div>
+    <p class="highcharts-description">
+         
+    </p>
+</figure>
+
+<script>
+    console.log(js_vars.similarity_dat);
+    console.log(js_vars.similarity_cat);
+
+Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Comparison of accuracy before and after help from group members'
+    },
+    xAxis: {
+        categories: js_vars.similarity_cat
+    },
+    credits: {
+        enabled: false
+    },
+	/*series: [{
+     data: js_vars.new_dict,
+     name: 'Value Type Description'
+}]*/
+    series: js_vars.similarity_dat
+    /*
+    series: [{
+        name: 'Player1',
+        data: [5]
+    }, {
+        name: 'Player2',
+        data: [2]
+    }, {
+        name: 'Player3',
+        data: [3]
+	}, {
+        name: 'Average guess',
+        data: [4]
+    }, {
+		name: 'Actual number',
+        data: [4]
+    }]
+    */
+});
+</script>
+
 <p>
     The actual sentence is "{{ C.SENTENCE }}".
 
-	Your original memory of the sentence was "{{ player.remembered_sentence }}". 
+	Your original memory of the sentence was "{{ player.remembered_sentence }}" with accuracy "{{ player.initial_similarity }}". 
 	
-	Your final sentence after help from others is "{{ player.final_sentence }}".
+	Your final sentence after help from others is "{{ player.final_sentence }}" with accuracy "{{ player.final_similarity }}".
+	
+	
 </p>
 
 {{ formfields }}
