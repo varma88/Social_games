@@ -2,3 +2,5 @@ otree>=5.4.0
 psycopg2>=2.8.4
 sentry-sdk>=0.7.9
 matplotlib==3.5.2
+spacy==3.3.0
+./en_core_web_sm-2.2.5.tar.gz
