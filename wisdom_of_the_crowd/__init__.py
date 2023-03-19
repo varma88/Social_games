@@ -12,8 +12,8 @@ doc = ''
 class C(BaseConstants):
     NAME_IN_URL = 'wisdom_of_the_crowd'
     PLAYERS_PER_GROUP = 3
-    NUM_ROUNDS = 3
-    ACTUAL_NUMBER = random.randint(0,1000)
+    NUM_ROUNDS = 1
+    ACTUAL_NUMBER = random.randint(500,1000)
 class Subsession(BaseSubsession):
     pass
     
