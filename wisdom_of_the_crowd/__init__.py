@@ -110,8 +110,13 @@ class Results(Page):
     def before_next_page(player: Player, timeout_happened):
         average_devn(player)    
 
+
 class FinalResults(Page):
-    form_model = 'player' 
-page_sequence = [Intro, Guess, MyWaitPage, Results, FinalResults]
+    form_model = 'player'
+
+
+page_sequence = [Intro, Guess, MyWaitPage, Results,
+                 # FinalResults
+                 ]
 
     
