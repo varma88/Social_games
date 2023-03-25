@@ -3,7 +3,19 @@
 
 {{ block content }}
 
-Your partners said the sentence is {{ group.reconstructed_sentence }}
+Your partners said the sentence is
+
+{#was: {{ group.reconstructed_sentence }}#}
+
+{#{{  sentences }}#}
+
+<ul>
+    {{ for sen in sentences }}
+    <li>{{ sen }}</li>
+
+    {{ endfor }}
+
+</ul>
 
 {{ formfields }}
 

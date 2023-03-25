@@ -76,6 +76,10 @@ class Group_memory(Page):
     def before_next_page(player: Player, timeout_happened):
         compare(player)
 
+    @staticmethod
+    def vars_for_template(player: Player):
+        return dict(sentences=eval(player.group.reconstructed_sentence))
+
 
 class Results(Page):
     form_model = 'player'
