@@ -1,0 +1,29 @@
+{{ load otree }}
+
+{{ block title }}
+
+Sentence reconstruction
+
+{{ endblock }}
+
+{{ block content }}
+
+<p>
+    On the next page,
+    you will get to read a sentence for {{ C.SENTENCE_TO }}&nbsp;seconds.
+    <br>
+    After that, you will be asked to write down the sentence on your own.
+</p>
+
+<p>
+    After all others have written down their sentences, you will get to read their sentences
+    and will then write down the sentence again.
+</p>
+
+<p>
+    Click on 'Next' to read the sentence.
+</p>
+
+{{  next_button  }}
+
+{{ endblock }}

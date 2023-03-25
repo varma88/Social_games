@@ -11,6 +11,8 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = 3
     NUM_ROUNDS = 1
 
+    SENTENCE_TO = 10  # timeout time for sentence.
+
     SENTENCE = 'In the hours of the waking night, locusts march in circles, and never settle in the abyss of your thoughts'
     ref_doc = nlp(u'In the hours of the waking night, locusts march in circles, and never settle in the abyss of your thoughts')
     # Was:
@@ -51,9 +53,13 @@ def compare(player: Player):
     player.participant.sim_data = [{'name':'Initial', 'data':[player.initial_similarity]}, {'name':'Final', 'data':[player.final_similarity]}]
 
 
+class SentenceInstr(Page):
+    pass
+
+
 class Sentence(Page):
     form_model = 'player'
-    timeout_seconds = 10
+    timeout_seconds = C.SENTENCE_TO
 
 class Individual_memory(Page):
     form_model = 'player'
@@ -82,4 +88,4 @@ class Results(Page):
         return similarity_dict
 
 
-page_sequence = [Sentence, Individual_memory, MyWaitPage, Group_memory, Results]
+page_sequence = [SentenceInstr, Sentence, Individual_memory, MyWaitPage, Group_memory, Results]
