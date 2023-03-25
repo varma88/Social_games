@@ -10,12 +10,23 @@ class C(BaseConstants):
     NAME_IN_URL = 'sentence_reconstruction'
     PLAYERS_PER_GROUP = 3
     NUM_ROUNDS = 1
-    SENTENCE = 'In the hours of the waking night, unholy creatures roam, and settle in the abyss of your thoughts'   
-    ref_doc = nlp(u'In the hours of the waking night, unholy creatures roam, and settle in the abyss of your thoughts')
+
+    SENTENCE = 'In the hours of the waking night, locusts march in circles, and never settle in the abyss of your thoughts'
+    ref_doc = nlp(u'In the hours of the waking night, locusts march in circles, and never settle in the abyss of your thoughts')
+    # Was:
+    # SENTENCE = 'In the hours of the waking night, unholy creatures roam, and settle in the abyss of your thoughts'
+    # ref_doc = nlp(u'In the hours of the waking night, unholy creatures roam, and settle in the abyss of your thoughts')
+
+
+
 class Subsession(BaseSubsession):
     pass
+
+
 class Group(BaseGroup):
     reconstructed_sentence = models.StringField()
+
+
 def aggregate(group: Group):
     players = group.get_players()
     group.reconstructed_sentence = str([p.remembered_sentence for p in players])
@@ -30,6 +41,7 @@ class Player(BasePlayer):
     initial_similarity = models.FloatField(initial=1)
     final_similarity = models.FloatField(initial=0.5)
     
+
 def compare(player: Player):
     player.doc1 = nlp(str(player.remembered_sentence))
     player.doc2 = nlp(str(player.final_sentence))
@@ -38,14 +50,18 @@ def compare(player: Player):
     player.participant.sim_cats = ['Initial', 'Final']
     player.participant.sim_data = [{'name':'Initial', 'data':[player.initial_similarity]}, {'name':'Final', 'data':[player.final_similarity]}]
 
+
 class Sentence(Page):
     form_model = 'player'
     timeout_seconds = 10
+
 class Individual_memory(Page):
     form_model = 'player'
     form_fields = ['remembered_sentence']
+
 class MyWaitPage(WaitPage):
     after_all_players_arrive = aggregate
+
 
 class Group_memory(Page):
     form_model = 'player'
@@ -53,6 +69,7 @@ class Group_memory(Page):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         compare(player)
+
 
 class Results(Page):
     form_model = 'player'
@@ -63,5 +80,6 @@ class Results(Page):
                            }
         print(similarity_dict)
         return similarity_dict
-    
+
+
 page_sequence = [Sentence, Individual_memory, MyWaitPage, Group_memory, Results]
