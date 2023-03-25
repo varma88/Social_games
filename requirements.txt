@@ -2,3 +2,5 @@ otree>=5.4.0
 psycopg2>=2.8.4
 sentry-sdk>=0.7.9
 matplotlib==3.5.2
+spacy==3.0.0
+en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.0.0/en_core_web_sm-3.0.0-py3-none-any.whl

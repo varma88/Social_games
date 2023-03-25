@@ -13,19 +13,24 @@ class C(BaseConstants):
     NAME_IN_URL = 'wisdom_of_the_crowd'
     PLAYERS_PER_GROUP = 3
     NUM_ROUNDS = 1
-    ACTUAL_NUMBER = random.randint(0,1000)
+    ACTUAL_NUMBER = random.randint(500,1000)
 class Subsession(BaseSubsession):
     pass
     
 class Group(BaseGroup):
     av_guess = models.FloatField()
     av_devn = models.FloatField()
+    avg_devn = models.FloatField()
 def average_guess(group: Group):
     players = group.get_players()
     guesses = [p.guess for p in players]
     av_guess = sum(guesses) / C.PLAYERS_PER_GROUP
     group.av_guess = round(av_guess, 3)
     group.av_devn = round(group.av_guess - C.ACTUAL_NUMBER, 3)
+    
+    group_history = group.in_all_rounds()
+    group_history_devn = [g.av_devn for g in group_history]
+    group.avg_devn = sum(group_history_devn) / C.NUM_ROUNDS
     # Save the info in highchart format for later use.
     # Get categories for chart (actually currently constant per group):
     hcats = ["Player" + str(id) for id in range(1, C.PLAYERS_PER_GROUP + 1)] + \
@@ -40,6 +45,7 @@ def average_guess(group: Group):
 class Player(BasePlayer):
     guess = models.FloatField(label='How many balls do you think there are in the box?')
     devn = models.FloatField()
+    avg_devn = models.FloatField()
 def deviation(player: Player):
     player.devn = round(player.guess - C.ACTUAL_NUMBER, 3)
     
@@ -62,6 +68,11 @@ def create_figure(player):
         string = b64encode(buf.read())
 
         return urllib.parse.quote(string)
+        
+def average_devn(player: Player):
+    player_history = player.in_all_rounds()
+    player_history_devn = [p.devn for p in player_history]
+    player.avg_devn = sum(player_history_devn) / C.NUM_ROUNDS
     
 class Intro(Page):
     timeout_seconds = 5
@@ -80,7 +91,6 @@ class Guess(Page):
         
 class MyWaitPage(WaitPage):
     after_all_players_arrive = average_guess
-
         
 class Results(Page):       
     form_model = 'player'
@@ -96,4 +106,12 @@ class Results(Page):
         
         print("@@@@ my_dict", my_dict)  # print statement for debugging.
         return my_dict
-page_sequence = [Intro, Guess, MyWaitPage, Results]
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        average_devn(player)    
+
+class FinalResults(Page):
+    form_model = 'player' 
+page_sequence = [Intro, Guess, MyWaitPage, Results, FinalResults]
+
+    

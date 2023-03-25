@@ -22,7 +22,7 @@ def aggregate(group: Group):
     
     
 class Player(BasePlayer):
-    Name = models.StringField()
+    #Name = models.StringField()
     remembered_sentence = models.StringField(blank=True)
     doc1 = nlp(str(remembered_sentence))
     final_sentence = models.StringField()
@@ -43,7 +43,7 @@ class Sentence(Page):
     timeout_seconds = 10
 class Individual_memory(Page):
     form_model = 'player'
-    form_fields = ['Name', 'remembered_sentence']
+    form_fields = ['remembered_sentence']
 class MyWaitPage(WaitPage):
     after_all_players_arrive = aggregate
 
