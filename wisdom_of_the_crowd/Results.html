@@ -16,10 +16,10 @@
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
-<figure class="highcharts-figure">
+<figure class="highcharts-figure" style="width: 80%">
     <div id="container"></div>
     <p class="highcharts-description">
-         
+
     </p>
 </figure>
 
@@ -27,45 +27,50 @@
     console.log(js_vars.highchart_dat);
     console.log(js_vars.highchart_cat);
 
-Highcharts.chart('container', {
-    chart: {
-        type: 'column'
-    },
-    title: {
-        text: 'Comparison of individual and average guesses with the actual number'
-    },
-    xAxis: {
-        categories: js_vars.highchart_cat
-    },
-    credits: {
-        enabled: false
-    },
-    series: js_vars.highchart_dat
-    /*
-    series: [{
-        name: 'Player1',
-        data: [5]
-    }, {
-        name: 'Player2',
-        data: [2]
-    }, {
-        name: 'Player3',
-        data: [3]
-	}, {
-        name: 'Average guess',
-        data: [4]
-    }, {
-		name: 'Actual number',
-        data: [4]
-    }]
-    */
-});
+    Highcharts.chart('container', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Comparison of individual and average guesses with the actual number'
+        },
+        xAxis: {
+            categories: js_vars.highchart_cat
+        },
+        credits: {
+            enabled: false
+        },
+        series: js_vars.highchart_dat
+        /*
+        series: [{
+            name: 'Player1',
+            data: [5]
+        }, {
+            name: 'Player2',
+            data: [2]
+        }, {
+            name: 'Player3',
+            data: [3]
+        }, {
+            name: 'Average guess',
+            data: [4]
+        }, {
+            name: 'Actual number',
+            data: [4]
+        }]
+        */
+    });
 </script>
 
-The actual number of balls in the box was {{ C.ACTUAL_NUMBER }}. You were off by {{ player.devn }}. 
 
+<p>
+    The actual number of balls in the box was {{ C.ACTUAL_NUMBER }}. You were off by {{ player.devn }}.
+</p>
 
-The average value of all the guesses in your group was {{ group.av_guess }}.  The group was off by {{ group.av_devn }}
+<p>
+The average value of all the guesses in your group was {{ group.av_guess | to1 }}.  The group was off by {{ group.av_devn | to1 }}.
+
+    </p>
 
 {{ next_button }}
 
