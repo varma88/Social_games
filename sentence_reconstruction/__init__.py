@@ -8,7 +8,7 @@ nlp = spacy.load('en_core_web_sm')
 doc = ''
 class C(BaseConstants):
     NAME_IN_URL = 'sentence_reconstruction'
-    PLAYERS_PER_GROUP = 3
+    PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 
     SENTENCE_TO = 10  # timeout time for sentence.
@@ -22,16 +22,17 @@ class C(BaseConstants):
 
 
 class Subsession(BaseSubsession):
-    pass
-
-
-class Group(BaseGroup):
     reconstructed_sentence = models.StringField()
 
 
-def aggregate(group: Group):
-    players = group.get_players()
-    group.reconstructed_sentence = str([p.remembered_sentence for p in players])
+class Group(BaseGroup):
+    # reconstructed_sentence = models.StringField()
+    pass
+
+
+def aggregate(subsession: Subsession):
+    players = subsession.get_players()
+    subsession.reconstructed_sentence = str([p.remembered_sentence for p in players])
     
     
 class Player(BasePlayer):
@@ -57,6 +58,7 @@ class SentenceInstr(Page):
     pass
 
 
+
 class Sentence(Page):
     form_model = 'player'
     timeout_seconds = C.SENTENCE_TO
@@ -66,7 +68,9 @@ class Individual_memory(Page):
     form_fields = ['remembered_sentence']
 
 class MyWaitPage(WaitPage):
+    wait_for_all_groups = True
     after_all_players_arrive = aggregate
+
 
 
 class Group_memory(Page):
@@ -78,7 +82,7 @@ class Group_memory(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        return dict(sentences=eval(player.group.reconstructed_sentence))
+        return dict(sentences=eval(player.subsession.reconstructed_sentence))
 
 
 class Results(Page):
