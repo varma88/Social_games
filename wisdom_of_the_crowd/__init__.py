@@ -77,6 +77,16 @@ def average_devn(player: Player):
 class Intro(Page):
     timeout_seconds = 5
 
+
+class WaitGrouping(WaitPage):
+    group_by_arrival_time = True
+
+
+def group_by_arrival_time_method(subsession, waiting_players):
+    if len(waiting_players) >= subsession.session.configs.num_players:
+        return waiting_players
+
+
 class Guess(Page):
     form_model = 'player'
     form_fields = ['guess']

@@ -7,7 +7,10 @@ import base64
 import urllib
 
 SESSION_CONFIG_DEFAULTS = dict(real_world_currency_per_point=1, participation_fee=0)
-SESSION_CONFIGS = [dict(name='my_session', num_demo_participants=None, app_sequence=['wisdom_of_the_crowd', 'sentence_reconstruction'])]
+SESSION_CONFIGS = [dict(name='my_session',
+                        num_demo_participants=None,
+                        num_players=3,
+                        app_sequence=['wisdom_of_the_crowd', 'sentence_reconstruction'])]
 LANGUAGE_CODE = 'en'
 REAL_WORLD_CURRENCY_CODE = 'USD'
 USE_POINTS = True

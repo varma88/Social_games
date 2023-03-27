@@ -57,6 +57,15 @@ class SentenceInstr(Page):
     pass
 
 
+class WaitGrouping(WaitPage):
+    group_by_arrival_time = True
+
+
+def group_by_arrival_time_method(subsession, waiting_players):
+    if len(waiting_players) >= subsession.session.configs.num_players:
+        return waiting_players
+
+
 class Sentence(Page):
     form_model = 'player'
     timeout_seconds = C.SENTENCE_TO
