@@ -93,7 +93,7 @@ class Guess(Page):
         
 class MyWaitPage(WaitPage):
     after_all_players_arrive = average_guess
-    group_by_arrival_time = True
+    wait_for_all_groups = True
 
 
 def group_by_arrival_time_method(subsession, waiting_players):
