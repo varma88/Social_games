@@ -11,7 +11,7 @@ c = cu
 doc = ''
 class C(BaseConstants):
     NAME_IN_URL = 'wisdom_of_the_crowd'
-    PLAYERS_PER_GROUP = 3
+    PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     ACTUAL_NUMBER = random.randint(500,1000)
 class Subsession(BaseSubsession):
@@ -78,14 +78,6 @@ class Intro(Page):
     timeout_seconds = 5
 
 
-class WaitGrouping(WaitPage):
-    group_by_arrival_time = True
-
-
-def group_by_arrival_time_method(subsession, waiting_players):
-    if len(waiting_players) >= subsession.session.configs.num_players:
-        return waiting_players
-
 
 class Guess(Page):
     form_model = 'player'
@@ -101,6 +93,12 @@ class Guess(Page):
         
 class MyWaitPage(WaitPage):
     after_all_players_arrive = average_guess
+    group_by_arrival_time = True
+
+
+def group_by_arrival_time_method(subsession, waiting_players):
+    if len(waiting_players) >= subsession.session.configs.num_players:
+        return waiting_players
         
 class Results(Page):       
     form_model = 'player'

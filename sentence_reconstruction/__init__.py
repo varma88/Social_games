@@ -8,7 +8,7 @@ nlp = spacy.load('en_core_web_sm')
 doc = ''
 class C(BaseConstants):
     NAME_IN_URL = 'sentence_reconstruction'
-    PLAYERS_PER_GROUP = 3
+    PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
 
     SENTENCE_TO = 10  # timeout time for sentence.
@@ -57,9 +57,6 @@ class SentenceInstr(Page):
     pass
 
 
-class WaitGrouping(WaitPage):
-    group_by_arrival_time = True
-
 
 def group_by_arrival_time_method(subsession, waiting_players):
     if len(waiting_players) >= subsession.session.configs.num_players:
@@ -76,6 +73,12 @@ class Individual_memory(Page):
 
 class MyWaitPage(WaitPage):
     after_all_players_arrive = aggregate
+    group_by_arrival_time = True
+
+
+def group_by_arrival_time_method(subsession, waiting_players):
+    if len(waiting_players) >= subsession.session.configs.num_players:
+        return waiting_players
 
 
 class Group_memory(Page):
