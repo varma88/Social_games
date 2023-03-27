@@ -22,16 +22,17 @@ class C(BaseConstants):
 
 
 class Subsession(BaseSubsession):
-    pass
-
-
-class Group(BaseGroup):
     reconstructed_sentence = models.StringField()
 
 
-def aggregate(group: Group):
-    players = group.get_players()
-    group.reconstructed_sentence = str([p.remembered_sentence for p in players])
+class Group(BaseGroup):
+    # reconstructed_sentence = models.StringField()
+    pass
+
+
+def aggregate(subsession: Subsession):
+    players = subsession.get_players()
+    subsession.reconstructed_sentence = str([p.remembered_sentence for p in players])
     
     
 class Player(BasePlayer):
@@ -81,7 +82,7 @@ class Group_memory(Page):
 
     @staticmethod
     def vars_for_template(player: Player):
-        return dict(sentences=eval(player.group.reconstructed_sentence))
+        return dict(sentences=eval(player.subsession.reconstructed_sentence))
 
 
 class Results(Page):

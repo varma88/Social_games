@@ -15,25 +15,31 @@ class C(BaseConstants):
     NUM_ROUNDS = 1
     ACTUAL_NUMBER = random.randint(500,1000)
 class Subsession(BaseSubsession):
-    pass
-    
-class Group(BaseGroup):
     av_guess = models.FloatField()
     av_devn = models.FloatField()
     avg_devn = models.FloatField()
-def average_guess(group: Group):
-    players = group.get_players()
-    guesses = [p.guess for p in players]
-    av_guess = sum(guesses) / C.PLAYERS_PER_GROUP
-    group.av_guess = round(av_guess, 3)
-    group.av_devn = round(group.av_guess - C.ACTUAL_NUMBER, 3)
     
-    group_history = group.in_all_rounds()
+class Group(BaseGroup):
+    pass
+    # av_guess = models.FloatField()
+    # av_devn = models.FloatField()
+    # avg_devn = models.FloatField()
+
+
+
+def average_guess(subsession: Subsession):
+    players = subsession.get_players()
+    guesses = [p.guess for p in players]
+    av_guess = sum(guesses) / len(players)  # C.PLAYERS_PER_GROUP
+    subsession.av_guess = round(av_guess, 3)
+    subsession.av_devn = round(subsession.av_guess - C.ACTUAL_NUMBER, 3)
+    
+    group_history = subsession.in_all_rounds()
     group_history_devn = [g.av_devn for g in group_history]
-    group.avg_devn = sum(group_history_devn) / C.NUM_ROUNDS
+    subsession.avg_devn = sum(group_history_devn) / C.NUM_ROUNDS
     # Save the info in highchart format for later use.
     # Get categories for chart (actually currently constant per group):
-    hcats = ["Player" + str(id) for id in range(1, C.PLAYERS_PER_GROUP + 1)] + \
+    hcats = ["Player" + str(id) for id in range(1, len(players) + 1)] + \
             ['Average guess', 'Actual number']
     hdat = guesses + [av_guess] + [C.ACTUAL_NUMBER]  # list of data in appropriate order.
     # Assign the variable to each participant (player across rounds) for later use:
@@ -95,10 +101,6 @@ class MyWaitPage(WaitPage):
     after_all_players_arrive = average_guess
     wait_for_all_groups = True
 
-
-def group_by_arrival_time_method(subsession, waiting_players):
-    if len(waiting_players) >= subsession.session.configs.num_players:
-        return waiting_players
         
 class Results(Page):       
     form_model = 'player'
